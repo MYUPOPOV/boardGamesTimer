@@ -1,0 +1,11 @@
+.header {
+  background-color: green;
+  height: 100px;
+}
+.header .header-menu-item {
+  margin-left: 120px;
+}
+
+.i2-skills-item {
+  margin-top: 20px;
+}
