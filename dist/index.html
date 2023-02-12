@@ -13,37 +13,40 @@
 
   <body class="">
     <header class="header">
-      <label class="header__label">Первый ход:</label>
-      <input class="header__input" id="starting_player_name" placeholder="Имя">
-      <button class="header__button" id="start_game">ОК</button>
       <select name="timeRemaining" id="select_timeRemaining">
         <option value="10">10 мин</option>
         <option value="20">20 мин</option>
         <option value="5">5 мин</option>
       </select>
       <select name="addingTime" id="select_addingTime">
-        <option value="10">+ 20 сек</option>
-        <option value="20">+ 30 сек</option>
-        <option value="5">+ 10 сек</option>
+        <option value="20">+ 20 сек</option>
+        <option value="30">+ 30 сек</option>
+        <option value="10">+ 10 сек</option>
       </select>
+      <button class="header__button" id="start_game">ОК</button>
     </header>
 
     <main class="main">
-      <div class="player_1">
-        <div class="player_1__name">Игрок 1</div>
+      <div class="player player_1">
+        <input class="player__input" placeholder="ИГРОК 1">
+        <label class="player__label hidden">ИГРОК 1</label>
         <div class="player_1__timeRemaining"></div>
       </div>
 
-      <div class="player_2">
-        <div class="player_2__name">Игрок 2</div>
+      <div class="player player_2">
+        <input class="player__input" placeholder="ИГРОК 2">
+        <label class="player__label hidden">ИГРОК 2</label>
         <div class="player_2__timeRemaining"></div>
       </div>
-      <div class="player_3">
-        <div class="player_3__name">Игрок 3</div>
+      <div class="player player_3">
+        <input class="player__input" placeholder="ИГРОК 3">
+        <label class="player__label hidden">ИГРОК 3</label>
         <div class="player_3__timeRemaining"></div>
       </div>
     </main>
-
+    <div class="popup">
+      <div class="popup__message"></div>
+    </div>
     <footer class="footer">
     </footer>
   </body>
