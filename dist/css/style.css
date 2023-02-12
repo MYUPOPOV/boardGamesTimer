@@ -26,6 +26,9 @@
 .unactive {
   color: #D0D0D0;
 }
+.bold {
+  font-weight: 800;
+} 
 
 html {
   font-family: 'Roboto';
@@ -52,6 +55,9 @@ header {
 }
 .header__button {
   /* height: 100%; */
+}
+#select_timeRemaining, #select_addingTime {
+  height: 100%;
 }
 main {
   width: 100vw;
