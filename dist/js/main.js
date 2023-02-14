@@ -86,9 +86,11 @@ const changeActivePlayer = () => {
   players[activeIndex].activeTurn = false;
   players[activeIndex].card.style.color = 'black';
   players[activeIndex].card.classList.remove('bold');
+  players[activeIndex].card.querySelector(".player__image").classList.add("grayscale");
   if (activeIndex + 1 < players.length) {
     players[activeIndex + 1].activeTurn = true
     startCountTime(players[activeIndex + 1])
+    players[activeIndex + 1].card.querySelector(".player__image").classList.remove("grayscale");
     activeIndex++;
     if (!popup.classList.contains('popup-active')) {
       showNitification(`+ ${addingTime} сек`);
@@ -96,6 +98,7 @@ const changeActivePlayer = () => {
   } else {
     players[0].activeTurn = true
     startCountTime(players[0])
+    players[0].card.querySelector(".player__image").classList.remove("grayscale");
     activeIndex = 0;
     counter++;
     roundCounter.textContent = counter;
@@ -153,6 +156,7 @@ const startGame = () => {
     item.timeRemaining = selectTimeRemaining.value*60;
     changeShowingTime(item)
     switchInputToLabel(item)
+    item.card.querySelector(".player__image").classList.add("grayscale");
   })
   players[players.length - 1].timeRemaining = players[players.length - 1].timeRemaining - addingTime;
   players[players.length - 1].activeTurn = true;
