@@ -135,6 +135,10 @@ footer {
   }
   .player__label {
     font-size: 32px;
+  }.popup {
+    height: 50vh;
+    width: 50vw;
+    font-size: 30px;
   }
 }
 @media screen and (max-width: 420px)  {
@@ -146,5 +150,16 @@ footer {
   }
   .player {
     width: 50%;
+  }
+  .header__button {
+    height: 25%;
+  }
+  #select_timeRemaining, #select_addingTime {
+    width: 25%;
+  }
+  .popup {
+    height: 30vh;
+    width: 90vw;
+    font-size: 24px;
   }
 }
