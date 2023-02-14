@@ -64,6 +64,7 @@ header {
   margin-right: 10px;
   border-radius: 10px;
   background-color: #f9f2ea;
+  border-width: 1px;
 }
 #select_timeRemaining, #select_addingTime {
   width: 150px;
@@ -91,6 +92,7 @@ main {
   width: 100%;
   margin-bottom: 20px;
   border-radius: 10px;
+  box-shadow: 3px 2px 10px;
 }
 .player__input {
   height: 50px;

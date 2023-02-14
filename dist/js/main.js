@@ -14,6 +14,7 @@ let activeIndex;
 let counter = 0;
 let isGameStarted = false;
 let isGamePaused = false;
+let isPrevAvatar = false;
 
 // Задаем объекты и массив игроков
 const player_1 = {
@@ -38,6 +39,8 @@ const players = [player_1,player_2,player_3];
 
 // Начинаем обратный отсчет времени
 const startCountTime = (item) => {
+  changeShowingTime(item);
+  changeColorTime(item);
   secondsCounting = setInterval(() => {
     if (item.timeRemaining <= 1) {
       clearInterval(secondsCounting)
@@ -57,7 +60,7 @@ const changeShowingTime = (item) => {
   item.timer.textContent=timeString;
 };
 
-// Сменить цвет имени и таймера
+// Сменить активный цвет имени и таймера
 const changeColorTime = (item) => {
   let color;
   if (item.timeRemaining >= 600) {
@@ -143,6 +146,18 @@ const showNitification = (message) => {
   }, 900)
 } 
 
+// Смена аватара
+const changeAvatar = (target) => {
+  console.log('Было: ', target.dataset)
+  const currentImageNumber = parseInt(target.dataset.image);
+  
+  let imageNumber = (isPrevAvatar) ? currentImageNumber - 1 : currentImageNumber + 1;
+  if (imageNumber == 0) {imageNumber = 14};
+  if (imageNumber == 15) {imageNumber = 1};
+  target.setAttribute("src",`./images/avatars/nobleman_${imageNumber}.png`)
+  target.dataset.image = imageNumber;
+}
+
 // Начинаем игру: фриз полей, запуск времени для первого игрока
 const startGame = () => {
   showNitification('Игра началась');
@@ -167,5 +182,23 @@ const startGame = () => {
 
 startButton.addEventListener('click', () => {if (!isGameStarted) {startGame()} } )
 startButton.addEventListener('dblclick', () => {if (isGameStarted) {togglePause()} } )
-main.addEventListener('dblclick', () => {if (isGameStarted && !isGamePaused) {changeActivePlayer()} })
+
+main.addEventListener('click', (event) => {
+  if (!isGameStarted) {
+    setTimeout(() => {if (!isPrevAvatar) {changeAvatar(event.target)}}, 270)
+  } 
+})
+
+main.addEventListener('dblclick', (event) => {
+  if (isGameStarted && !isGamePaused) {
+    changeActivePlayer()
+  } else if (!isGameStarted) {
+    if (event.target.classList.contains("player__image")) {
+      isPrevAvatar = true;
+      setTimeout(() => {isPrevAvatar = false}, 300);
+      changeAvatar(event.target)
+    }
+  } 
+})
+
 
