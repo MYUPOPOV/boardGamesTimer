@@ -73,6 +73,7 @@ const changeColorTime = (item) => {
     color = 'red'
   }
   item.card.style.color = color;
+  item.card.querySelector(".player__image").style.boxShadow = color;
   item.card.classList.add('bold');;
 };
 
