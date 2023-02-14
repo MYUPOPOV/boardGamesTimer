@@ -139,12 +139,19 @@ footer {
 }
 
 @media screen and (max-width: 900px)  {
+  body {
+    line-height: 1.1;
+  }
   main {
     width: 100vw;
   }
+  .player__image {
+    margin-bottom: 5px;
+  }
   .player__label {
     font-size: 32px;
-  }.popup {
+  }
+  .popup {
     height: 50vh;
     width: 50vw;
     font-size: 30px;
@@ -170,5 +177,8 @@ footer {
     height: 30vh;
     width: 90vw;
     font-size: 24px;
+  }
+  .player__image {
+    display: none;
   }
 }
