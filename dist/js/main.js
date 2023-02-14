@@ -4,9 +4,9 @@ const header = document.querySelector('header');
 const startButton = document.getElementById('start_game');
 const selectTimeRemaining = document.getElementById('select_timeRemaining');
 const selectAddingTime = document.getElementById('select_addingTime');
+const selectPlayersNumber = document.getElementById('select_playersNumber');
 const roundCounter = document.querySelector('.round_counter__counter');
 const popup = document.querySelector('.popup');
-
 
 let addingTime;
 let secondsCounting;
@@ -35,7 +35,13 @@ const player_3 = {
   card: document.querySelector('.player_3'),
   activeTurn: false,
 };
-const players = [player_1,player_2,player_3];
+const player_4 = {
+  timeRemaining: 0,
+  timer: document.querySelector('.player_4__timeRemaining'),
+  card: document.querySelector('.player_4'),
+  activeTurn: false,
+};
+const players = [player_1,player_2,player_3,player_4];
 
 // Начинаем обратный отсчет времени
 const startCountTime = (item) => {
@@ -149,9 +155,7 @@ const showNitification = (message) => {
 
 // Смена аватара
 const changeAvatar = (target) => {
-  console.log('Было: ', target.dataset)
   const currentImageNumber = parseInt(target.dataset.image);
-  
   let imageNumber = (isPrevAvatar) ? currentImageNumber - 1 : currentImageNumber + 1;
   if (imageNumber == 0) {imageNumber = 14};
   if (imageNumber == 15) {imageNumber = 1};
@@ -159,12 +163,54 @@ const changeAvatar = (target) => {
   target.dataset.image = imageNumber;
 }
 
+// Рендер карточек
+const renderCards = (value) => {
+  main.innerHTML='';
+  for (let index=0; index < value; index++) {
+    const mainDiv = document.createElement("div");
+    mainDiv.classList.add(`player`);
+    mainDiv.classList.add(`player_${index+1}`);
+    
+    const imgDiv = document.createElement("div");
+    const img = document.createElement("img");
+    img.classList.add("player__image");
+    img.dataset.image=index+1;
+    img.setAttribute("src",`./images/avatars/nobleman_${index+1}.png`)
+    imgDiv.append(img)
+    mainDiv.append(imgDiv)
+
+    const input = document.createElement("input");
+    input.classList.add("player__input");
+    input.setAttribute("placeholder",`ИГРОК ${index+1}`);
+    mainDiv.append(input)
+
+    const label = document.createElement("label");
+    label.classList.add("player__label");
+    label.classList.add("hidden");
+    label.textContent=`ИГРОК ${index+1}`;
+    mainDiv.append(label)
+
+    const timeDiv = document.createElement("div");
+    timeDiv.classList.add(`player_${index+1}__timeRemaining`);
+    mainDiv.append(timeDiv)
+
+    main.append(mainDiv)
+  }
+}
+
 // Начинаем игру: фриз полей, запуск времени для первого игрока
 const startGame = () => {
+  players.length = document.querySelectorAll(".player").length;
+
+  players.forEach((item,index) => {
+    item.timer = document.querySelector(`.player_${index+1}__timeRemaining`);
+    item.card = document.querySelector(`.player_${index+1}`);
+  })
   showNitification('Игра началась');
   startButton.style.opacity = 0.5;
   selectTimeRemaining.disabled = true;
   selectAddingTime.disabled = true;
+  selectPlayersNumber.disabled = true;
   startButton.textContent = 'Пауза';
   addingTime = selectAddingTime.value;
   addingTime = ++addingTime - 1;
@@ -181,12 +227,16 @@ const startGame = () => {
   isGameStarted = true
 }
 
+// Cлушатели событий
 startButton.addEventListener('click', () => {if (!isGameStarted) {startGame()} } )
 startButton.addEventListener('dblclick', () => {if (isGameStarted) {togglePause()} } )
+selectPlayersNumber.addEventListener('change', () => {renderCards(selectPlayersNumber.value)})
 
 main.addEventListener('click', (event) => {
   if (!isGameStarted) {
-    setTimeout(() => {if (!isPrevAvatar) {changeAvatar(event.target)}}, 270)
+    if (event.target.classList.contains("player__image")) {
+      setTimeout(() => {if (!isPrevAvatar) {changeAvatar(event.target)}}, 300)
+    }
   } 
 })
 
@@ -196,10 +246,16 @@ main.addEventListener('dblclick', (event) => {
   } else if (!isGameStarted) {
     if (event.target.classList.contains("player__image")) {
       isPrevAvatar = true;
-      setTimeout(() => {isPrevAvatar = false}, 300);
+      setTimeout(() => {isPrevAvatar = false}, 400);
       changeAvatar(event.target)
     }
   } 
+})
+
+document.addEventListener('keydown', (event) => {
+  if (event.code="32") {
+    changeActivePlayer()
+  }
 })
 
 

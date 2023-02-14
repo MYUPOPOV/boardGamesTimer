@@ -66,11 +66,12 @@ header {
   background-color: #f9f2ea;
   border-width: 1px;
 }
-#select_timeRemaining, #select_addingTime {
+#select_timeRemaining, #select_addingTime, #select_playersNumber {
   width: 150px;
   margin-right: 10px;
   padding: 5px;
   border-radius: 10px;
+  text-align: center;
 }
 main {
   width: 95vw;
@@ -170,10 +171,10 @@ footer {
     width: 50%;
   }
   .header__button {
-    height: 25%;
+    height: 20%;
   }
-  #select_timeRemaining, #select_addingTime {
-    width: 25%;
+  #select_timeRemaining, #select_addingTime, #select_playersNumber {
+    width: 20%;
   }
   .popup {
     height: 30vh;
