@@ -45,10 +45,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 10px;
 }
 header {
-  height: 68px;
-  margin: 20px 10px;
+  margin: 15px;
   display: flex;
   align-items: center;
   font-size: 18px;
@@ -58,35 +58,44 @@ header {
   padding: 5px;
   width: 150px;
   margin-right: 10px;
+  border-radius: 10px;
   background-color: #f9f2ea;
 }
 #select_timeRemaining, #select_addingTime {
-  margin-right: 10px;
-  /* height: 32px; */
   width: 150px;
+  margin-right: 10px;
   padding: 5px;
+  border-radius: 10px;
 }
 main {
-  width: 100vw;
-  height: calc(100vh - 108px);
+  width: 95vw;
+  height: calc(100vh - 68px - 44px);
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   background-color: #f9f2ea;
-}
-input {
-  text-transform: uppercase;
-  height: 50px;
-  padding: 5px;
-  text-align: center;
+  border-radius: 20px;
+  margin: 0 20px 0 20px;
 }
 .player {
+  width: 23%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+.player__input {
+  height: 50px;
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  text-transform: uppercase;
+}
 .player__label {
   font-size: 36px;
+}
+footer {
+  height: 24px;
 }
 .popup {
   display: none;
@@ -111,12 +120,31 @@ input {
   align-items: center;
   animation: disappearance 1s;
 }
-
 @keyframes disappearance {
   0% {
     opacity: 1;
   }
   100% {
     opacity: 0;
+  }
+}
+
+@media screen and (max-width: 900px)  {
+  main {
+    width: 100vw;
+  }
+  .player__label {
+    font-size: 32px;
+  }
+}
+@media screen and (max-width: 420px)  {
+  main {
+    flex-direction: column;
+  }
+  .player__label {
+    font-size: 24px;
+  }
+  .player {
+    width: 50%;
   }
 }

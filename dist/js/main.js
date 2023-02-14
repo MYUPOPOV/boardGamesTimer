@@ -1,15 +1,17 @@
 const main = document.querySelector('main');
 const header = document.querySelector('header');
-const playerNameInputs = document.querySelectorAll('.input');
+
 const startButton = document.getElementById('start_game');
 const selectTimeRemaining = document.getElementById('select_timeRemaining');
 const selectAddingTime = document.getElementById('select_addingTime');
+const roundCounter = document.querySelector('.round_counter__counter');
 const popup = document.querySelector('.popup');
 
 
 let addingTime;
 let secondsCounting;
 let activeIndex;
+let counter = 0;
 let isGameStarted = false;
 let isGamePaused = false;
 
@@ -95,6 +97,8 @@ const changeActivePlayer = () => {
     players[0].activeTurn = true
     startCountTime(players[0])
     activeIndex = 0;
+    counter++;
+    roundCounter.textContent = counter;
     if (!popup.classList.contains('popup-active')) {
       showNitification(`+ ${addingTime} сек`);
     }
@@ -136,13 +140,13 @@ const showNitification = (message) => {
   }, 900)
 } 
 
-// Начинаем игру: фриз имени, запуск времени для первого игрока
+// Начинаем игру: фриз полей, запуск времени для первого игрока
 const startGame = () => {
   showNitification('Игра началась');
-  playerNameInputs.disabled = true;
-  startButton.disabled = true;
+  startButton.style.opacity = 0.5;
   selectTimeRemaining.disabled = true;
   selectAddingTime.disabled = true;
+  startButton.textContent = 'Пауза';
   addingTime = selectAddingTime.value;
   addingTime = ++addingTime - 1;
   players.forEach( (item) => {
@@ -157,7 +161,7 @@ const startGame = () => {
   isGameStarted = true
 }
 
-startButton.addEventListener('click', startGame)
+startButton.addEventListener('click', () => {if (!isGameStarted) {startGame()} } )
+startButton.addEventListener('dblclick', () => {if (isGameStarted) {togglePause()} } )
 main.addEventListener('dblclick', () => {if (isGameStarted && !isGamePaused) {changeActivePlayer()} })
-header.addEventListener('dblclick', () => {if (isGameStarted) {togglePause()} } )
 
