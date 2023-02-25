@@ -2,6 +2,7 @@ const main = document.querySelector('main');
 const header = document.querySelector('header');
 
 const startButton = document.getElementById('start_game');
+const avatarModeButton = document.getElementById('avatar_mode');
 const selectTimeRemaining = document.getElementById('select_timeRemaining');
 const selectAddingTime = document.getElementById('select_addingTime');
 const selectPlayersNumber = document.getElementById('select_playersNumber');
@@ -16,30 +17,38 @@ let isGameStarted = false;
 let isGamePaused = false;
 let isPrevAvatar = false;
 
+// Наборы аватаров
+const avatarModes = ['classic_mode', 'sharpen_mode', 'art_mode', 'anime_mode'];
+let currentModeIndex = 0;
+
 // Задаем объекты и массив игроков
 const player_1 = {
   timeRemaining: 0,
   timer: document.querySelector('.player_1__timeRemaining'),
   card: document.querySelector('.player_1'),
   activeTurn: false,
+  avatarIndex: 1,
 };
 const player_2 = {
   timeRemaining: 0,
   timer: document.querySelector('.player_2__timeRemaining'),
   card: document.querySelector('.player_2'),
   activeTurn: false,
+  avatarIndex: 2,
 };
 const player_3 = {
   timeRemaining: 0,
   timer: document.querySelector('.player_3__timeRemaining'),
   card: document.querySelector('.player_3'),
   activeTurn: false,
+  avatarIndex: 3,
 };
 const player_4 = {
   timeRemaining: 0,
   timer: document.querySelector('.player_4__timeRemaining'),
   card: document.querySelector('.player_4'),
   activeTurn: false,
+  avatarIndex: 4,
 };
 const players = [player_1,player_2,player_3,player_4];
 
@@ -156,11 +165,11 @@ const showNitification = (message) => {
 // Смена аватара
 const changeAvatar = (target) => {
   const currentImageNumber = parseInt(target.dataset.image);
-  let imageNumber = (isPrevAvatar) ? currentImageNumber - 1 : currentImageNumber + 1;
-  if (imageNumber == 0) {imageNumber = 14};
-  if (imageNumber == 15) {imageNumber = 1};
-  target.setAttribute("src",`./images/avatars/nobleman_${imageNumber}.png`)
-  target.dataset.image = imageNumber;
+  const currentAvatarNumber = players[currentImageNumber - 1].avatarIndex
+  players[currentImageNumber - 1].avatarIndex = (isPrevAvatar) ? currentAvatarNumber - 1 : currentAvatarNumber + 1;
+  if (players[currentImageNumber - 1].avatarIndex == 0) {players[currentImageNumber - 1].avatarIndex = 14};
+  if (players[currentImageNumber - 1].avatarIndex == 15) {players[currentImageNumber - 1].avatarIndex = 1};
+  target.setAttribute("src",`./images/avatars/${avatarModes[currentModeIndex]}/nobleman_${players[currentImageNumber - 1].avatarIndex}.png`)
 }
 
 // Рендер карточек
@@ -175,7 +184,7 @@ const renderCards = (value) => {
     const img = document.createElement("img");
     img.classList.add("player__image");
     img.dataset.image=index+1;
-    img.setAttribute("src",`./images/avatars/nobleman_${index+1}.png`)
+    img.setAttribute("src",`./images/avatars/${avatarModes[currentModeIndex]}/nobleman_${players[index].avatarIndex}.png`)
     imgDiv.append(img)
     mainDiv.append(imgDiv)
 
@@ -197,6 +206,25 @@ const renderCards = (value) => {
     main.append(mainDiv)
   }
 }
+
+// Сменить мод аватаров
+const changeAvatarMode = () => {
+  if (currentModeIndex + 1 < avatarModes.length) {
+    currentModeIndex++;
+    avatarModeButton.textContent = avatarModes[currentModeIndex];
+  } else { 
+    currentModeIndex = 0;
+    avatarModeButton.textContent = avatarModes[currentModeIndex];
+  }
+  // console.log(document.querySelectorAll(".player__image"))
+  // for (i = 0; i < document.querySelectorAll(".player__image").length; i++) {
+  //   console.log(i);
+  // }
+  document.querySelectorAll(".player__image").forEach((item,index) => {
+    item.setAttribute("src",`./images/avatars/${avatarModes[currentModeIndex]}/nobleman_${players[index].avatarIndex}.png`)
+  })
+
+};
 
 // Начинаем игру: фриз полей, запуск времени для первого игрока
 const startGame = () => {
@@ -227,11 +255,12 @@ const startGame = () => {
   isGameStarted = true
 }
 
+//Инициализация игры
+const initGame = () => {
 // Cлушатели событий
 startButton.addEventListener('click', () => {if (!isGameStarted) {startGame()} } )
 startButton.addEventListener('dblclick', () => {if (isGameStarted) {togglePause()} } )
 selectPlayersNumber.addEventListener('change', () => {renderCards(selectPlayersNumber.value)})
-
 main.addEventListener('click', (event) => {
   if (!isGameStarted) {
     if (event.target.classList.contains("player__image")) {
@@ -239,7 +268,6 @@ main.addEventListener('click', (event) => {
     }
   } 
 })
-
 main.addEventListener('dblclick', (event) => {
   if (isGameStarted && !isGamePaused) {
     changeActivePlayer()
@@ -251,11 +279,14 @@ main.addEventListener('dblclick', (event) => {
     }
   } 
 })
-
 document.addEventListener('keydown', (event) => {
   if (event.code="32") {
     changeActivePlayer()
   }
 })
+avatarModeButton.addEventListener('click', changeAvatarMode )
+}
+
+initGame();
 
 
