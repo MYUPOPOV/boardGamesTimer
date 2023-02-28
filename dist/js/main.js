@@ -94,6 +94,7 @@ const changeColorTime = (item) => {
 
 // Меняем активный таймер
 const changeActivePlayer = () => {
+  soundClick();
   clearInterval(secondsCounting)
   players.forEach((item, index) => {
     if (item.activeTurn) {
@@ -160,7 +161,14 @@ const showNitification = (message) => {
   setTimeout(() => {
     popup.classList.remove('popup-active')
   }, 900)
-} 
+}
+
+// Звук при смене игрока
+const soundClick = () => {
+  var audio = new Audio(); // Создаём новый элемент Audio
+  audio.src = './audio/click.mp3'; // Указываем путь к звуку "клика"
+  audio.autoplay = true; // Автоматически запускаем
+}
 
 // Смена аватара
 const changeAvatar = (target) => {
