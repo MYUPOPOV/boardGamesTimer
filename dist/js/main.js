@@ -18,7 +18,7 @@ let isGamePaused = false;
 let isPrevAvatar = false;
 
 // Наборы аватаров
-const avatarModes = ['classic_mode', 'sharpen_mode', 'art_mode', 'anime_mode'];
+const avatarModes = ['classic_mode', 'art_mode', 'anime_mode'];
 let currentModeIndex = 0;
 
 // Задаем объекты и массив игроков
