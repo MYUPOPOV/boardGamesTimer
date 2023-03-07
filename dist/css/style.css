@@ -117,6 +117,9 @@ footer {
   flex-direction: row;
   justify-content: space-between;
 }
+.total-timer {
+  margin-left: 30px;
+}
 .footer__button {
   height: 24px;
   padding: 0;

@@ -7,12 +7,14 @@ const selectTimeRemaining = document.getElementById('select_timeRemaining');
 const selectAddingTime = document.getElementById('select_addingTime');
 const selectPlayersNumber = document.getElementById('select_playersNumber');
 const roundCounter = document.querySelector('.round_counter__counter');
+const totalTimer = document.querySelector('.total-timer');
 const popup = document.querySelector('.popup');
 
 let addingTime;
 let secondsCounting;
 let activeIndex;
 let counter = 0;
+let totalCounter = 0;
 let isGameStarted = false;
 let isGamePaused = false;
 let isPrevAvatar = false;
@@ -74,6 +76,24 @@ const changeShowingTime = (item) => {
   const timeString = `${min} мин ${sec} сек` 
   item.timer.textContent=timeString;
 };
+
+// Отображаем каждую секунду общего таймера
+const changeTotalShowingTime = (totalCounter) => {
+  const min = Math.trunc(totalCounter / 60) ;
+  const sec = totalCounter % 60;
+  const timeString = `${min} мин ${sec} сек` 
+  totalTimer.textContent = timeString;
+};
+
+// Старт общего таймера
+const startTotalTimer = () => {
+  setInterval(() => {
+    if (!isGamePaused) {
+      totalCounter++;
+      changeTotalShowingTime(totalCounter);
+    }
+  }, 1000)
+}
 
 // Сменить активный цвет имени и таймера
 const changeColorTime = (item) => {
@@ -234,10 +254,10 @@ const changeAvatarMode = () => {
 
 };
 
-// Начинаем игру: фриз полей, запуск времени для первого игрока
+// Начинаем игру: фриз полей, запуск общего таймера и отчета времени для первого игрока
 const startGame = () => {
   players.length = document.querySelectorAll(".player").length;
-
+  startTotalTimer();
   players.forEach((item,index) => {
     item.timer = document.querySelector(`.player_${index+1}__timeRemaining`);
     item.card = document.querySelector(`.player_${index+1}`);
